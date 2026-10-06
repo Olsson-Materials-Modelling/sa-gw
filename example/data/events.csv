@@ -1,0 +1,101 @@
+cell,kind,trap_atom,precursor_atom,level_before_eV,level_after_eV,stabilisation_eV
+cell_001,substitutional,7,7,-1.5505,-1.9203,0.0947
+cell_002,substitutional,23,23,-1.406,-1.8151,0.1292
+cell_003,interstitial,119,119,-6.7108,-7.165,0.1504
+cell_004,interstitial,119,119,-6.5694,-6.9562,0.1297
+cell_005,polaron,38,38,-0.1273,-3.5635,0.5812
+cell_006,dangling bond,6,22,-1.8773,-5.3744,0.573
+cell_007,substitutional,29,29,-1.4927,-1.7234,0.0528
+cell_008,interstitial,119,119,-6.8439,-7.2377,0.1178
+cell_009,bond break,27,27,-0.6514,-5.7006,0.8107
+cell_010,bond break,27,27,-0.3937,-5.5459,0.793
+cell_011,substitutional,30,30,-1.4918,-1.7365,0.0715
+cell_012,bond break,23,23,-0.9351,-5.3914,0.7191
+cell_013,bond break,38,38,-0.3037,-5.2238,0.7581
+cell_014,polaron,7,7,-0.1146,-3.671,0.5688
+cell_015,substitutional,7,7,-1.1499,-1.4436,0.0855
+cell_016,polaron,26,26,-0.1996,-3.3459,0.5356
+cell_017,bond break,25,25,-0.3495,-5.7048,0.8331
+cell_018,dangling bond,27,17,-2.1732,-5.1574,0.5265
+cell_019,interstitial,119,119,-6.4818,-6.7639,0.0907
+cell_020,polaron,6,6,-0.05,-2.0517,0.3096
+cell_021,substitutional,35,35,-1.2925,-1.6044,0.107
+cell_022,substitutional,29,29,-1.2605,-1.4856,0.1019
+cell_023,bond break,14,14,-0.05,-5.6803,0.8707
+cell_024,interstitial,119,119,-6.8163,-7.1162,0.0787
+cell_025,interstitial,119,119,-7.0167,-7.3613,0.093
+cell_026,polaron,24,24,-0.272,-3.4932,0.5103
+cell_027,substitutional,13,13,-1.4736,-1.7327,0.1019
+cell_028,bond break,28,28,-0.4584,-5.0933,0.7441
+cell_029,polaron,21,21,-0.1412,-3.3577,0.5609
+cell_030,polaron,31,31,-0.23,-2.5974,0.3781
+cell_031,bond break,21,21,-0.1119,-5.2202,0.7725
+cell_032,polaron,26,26,-0.1587,-3.512,0.5866
+cell_033,substitutional,36,36,-0.8542,-1.1998,0.1153
+cell_034,bond break,16,16,-0.638,-5.1621,0.7253
+cell_035,dangling bond,5,30,-3.3804,-5.2111,0.343
+cell_036,bond break,31,31,-0.05,-5.428,0.8281
+cell_037,substitutional,25,25,-1.2503,-1.4474,0.0663
+cell_038,dangling bond,8,25,-2.6579,-5.3674,0.4683
+cell_039,substitutional,36,36,-1.8586,-2.0946,0.1032
+cell_040,substitutional,10,10,-1.2994,-1.5218,0.0635
+cell_041,dangling bond,3,3,-2.0541,-5.2539,0.5144
+cell_042,bond break,23,23,-0.3286,-5.7986,0.8879
+cell_043,dangling bond,5,5,-2.4871,-5.466,0.5244
+cell_044,substitutional,6,6,-1.0726,-1.3605,0.0788
+cell_045,polaron,15,15,-0.0639,-2.9317,0.4756
+cell_046,polaron,13,13,-0.29,-3.0246,0.4346
+cell_047,polaron,16,16,-0.1613,-2.9679,0.482
+cell_048,interstitial,119,119,-6.5725,-6.8342,0.1132
+cell_049,polaron,10,10,-0.1702,-3.3766,0.5321
+cell_050,bond break,18,18,-0.4979,-5.4996,0.8034
+cell_051,dangling bond,19,19,-2.4279,-5.1681,0.4987
+cell_052,dangling bond,1,1,-2.3952,-5.4202,0.4952
+cell_053,dangling bond,20,20,-2.4064,-4.6976,0.3901
+cell_054,interstitial,119,119,-6.9851,-7.2173,0.0879
+cell_055,dangling bond,37,37,-3.0166,-4.6966,0.2656
+cell_056,interstitial,119,119,-7.0793,-7.2233,0.0781
+cell_057,dangling bond,37,37,-2.6043,-5.2367,0.4403
+cell_058,polaron,2,2,-0.1398,-3.5602,0.5721
+cell_059,dangling bond,5,5,-2.2028,-4.7827,0.4112
+cell_060,bond break,12,12,-0.2217,-5.4527,0.8624
+cell_061,interstitial,119,119,-6.7824,-7.046,0.0823
+cell_062,bond break,14,14,-0.2205,-5.6703,0.8513
+cell_063,polaron,36,36,-0.2846,-3.7062,0.5678
+cell_064,dangling bond,14,14,-2.3304,-5.1239,0.4791
+cell_065,dangling bond,21,21,-2.2661,-4.5525,0.3708
+cell_066,substitutional,33,33,-1.2003,-1.5456,0.0932
+cell_067,dangling bond,36,36,-3.0126,-5.0945,0.3652
+cell_068,bond break,30,30,-0.1533,-5.0192,0.7289
+cell_069,interstitial,119,119,-6.8756,-7.2451,0.1066
+cell_070,interstitial,119,119,-6.8325,-7.1188,0.1007
+cell_071,bond break,23,23,-0.538,-5.5444,0.8191
+cell_072,interstitial,119,119,-6.1872,-6.445,0.0832
+cell_073,polaron,22,22,-0.089,-2.7965,0.4303
+cell_074,substitutional,32,32,-1.7393,-2.0177,0.031
+cell_075,polaron,37,37,-0.2515,-3.7412,0.583
+cell_076,interstitial,119,119,-6.5621,-6.9908,0.1341
+cell_077,polaron,38,38,-0.05,-3.6557,0.5469
+cell_078,interstitial,119,119,-6.8511,-7.0755,0.0631
+cell_079,bond break,25,25,-0.3675,-4.9155,0.7337
+cell_080,dangling bond,36,36,-2.557,-5.3199,0.4611
+cell_081,polaron,17,17,-0.1736,-3.2367,0.4987
+cell_082,dangling bond,4,4,-2.1967,-5.5117,0.5531
+cell_083,dangling bond,30,30,-1.9857,-5.5208,0.5945
+cell_084,dangling bond,16,16,-2.1826,-4.9194,0.4406
+cell_085,substitutional,15,15,-1.3054,-1.633,0.1006
+cell_086,dangling bond,39,39,-3.0875,-5.2659,0.3976
+cell_087,substitutional,10,10,-1.4217,-1.7684,0.1352
+cell_088,polaron,22,22,-0.0928,-2.8519,0.4357
+cell_089,bond break,5,5,-0.2155,-5.6126,0.826
+cell_090,substitutional,1,1,-1.5133,-1.9132,0.1019
+cell_091,interstitial,119,119,-6.7249,-7.1499,0.0959
+cell_092,interstitial,119,119,-6.8996,-7.197,0.0556
+cell_093,bond break,11,11,-0.1418,-5.247,0.7433
+cell_094,bond break,11,11,-0.3404,-5.1399,0.7623
+cell_095,interstitial,119,119,-6.4859,-6.7491,0.1133
+cell_096,interstitial,119,119,-6.8792,-7.1043,0.0911
+cell_097,polaron,13,13,-0.2395,-3.509,0.5593
+cell_098,substitutional,37,37,-1.4584,-1.7648,0.1056
+cell_099,substitutional,33,33,-1.2734,-1.609,0.087
+cell_100,interstitial,119,119,-6.5942,-6.8581,0.095

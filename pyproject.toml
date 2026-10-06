@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sagw"
+version = "1.0.0"
+description = "State-aligned graph wavelets: graph-wavelet fingerprints of trapping events in disordered networks"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Olsson Materials Modelling"}]
+dependencies = ["numpy>=1.24", "scipy>=1.10", "pandas>=2.0", "pyarrow>=12", "scikit-learn>=1.3"]
+
+[tool.setuptools]
+packages = ["sagw"]
