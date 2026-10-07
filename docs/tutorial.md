@@ -91,7 +91,8 @@ blocks.*
 ## 7. The example classes
 
 100 network glasses (four-fold A bridged by two-fold B), one event each of five kinds, each with its own level, localisation and
-well (`example/data/README.md`).
+well (`example/data/README.md`).  The kinds are not fixed: a new one is an entry in each table of `example/make_example.py` and a
+displacement rule in its `event`; the demo reads the kinds from `events.csv`.
 
 ![classes](../demo/figures/fig05_classes.png)
 ![physics](../demo/figures/fig06_physics.png)

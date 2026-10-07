@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT)); sys.p
 from sagw.structures import read_structure_files, distances
 from sagw.graph import contact_graph, graph_weights, operator
 from sagw.network import Network
-from style import CLASSES, COL, MARK, INK, GREY, TWO_COLUMN, apply, save
+from style import INK, GREY, TWO_COLUMN, apply, save, classes_of, palette
 import plot
 
 OUT, FIG = ROOT / 'demo/out', ROOT / 'demo/figures'
@@ -34,8 +34,8 @@ def arrow(fig, a, b):
 
 def main():
     apply(); net = Network.load(ROOT / 'example/data/network.json'); ev = pd.read_csv(OUT / 'events.csv'); z = np.load(OUT / 'fingerprint.npz', allow_pickle=True); S = z['S'].astype(float); Z = z['Z'].astype(float); hop = z['hop']; trap = z['trap']
-    boxes, sym, cell, pos = read_structure_files(ROOT / 'example/data/structures'); K = {c: (ev.kind == c).to_numpy() for c in CLASSES}; blue = COL['bond break']
-    k = ev.index[K['bond break']]; b = int(k[np.argsort(ev.eta__structure[k].to_numpy())[len(k) // 2]]); t = int(trap[b]); hb = hop[b]; role = net.role_of(sym[b])
+    boxes, sym, cell, pos = read_structure_files(ROOT / 'example/data/structures'); CLASSES = classes_of(ev.kind); COL, MARK = palette(CLASSES); K = {c: (ev.kind == c).to_numpy() for c in CLASSES}
+    shown = 'bond break' if 'bond break' in CLASSES else CLASSES[0]; k = ev.index[K[shown]]; b = int(k[np.argsort(ev.eta__structure[k].to_numpy())[len(k) // 2]]); t = int(trap[b]); hb = hop[b]; role = net.role_of(sym[b]); blue = COL[shown]
     d = [distances(pos[b, q], cell[b]) for q in range(2)]; con = [contact_graph(d[q], role, net) for q in range(2)]; w = graph_weights(d[0], con[0], net); H = operator(w)
     fig = plt.figure(figsize=(TWO_COLUMN, 4.2)); W, Hh = .12, .29; xs = [.025 + i * .165 for i in range(6)]; y1 = .65
     # top row: inputs, settings, contact graph, channels, operator, scattering

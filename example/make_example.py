@@ -159,7 +159,7 @@ def shares_of(rng, sym, pos, anion, cell, trap, precursor, kind):
 
 def readings(cells):
     """T0, eta and eta_t of the structural fingerprint at the trap atom of every cell, standardised over the cells made."""
-    F = [[structural_channels(p, c['cell'], c['sym'], NET) for p in (c['pos'], c['anion'])] for c in cells]; allF = np.concatenate([f[0] for f in F]); mu, sd = allF.mean(0), allF.std(0); out = []
+    F = [[structural_channels(p, c['cell'], c['sym'], NET) for p in (c['pos'], c['anion'])] for c in cells]; allF = np.concatenate([f[0] for f in F]); mu, sd = allF.mean(0), allF.std(0); sd = np.where(sd > 1e-12, sd, 1.0); out = []
     for c, f in zip(cells, F):
         S = []
         for q, p in enumerate((c['pos'], c['anion'])):

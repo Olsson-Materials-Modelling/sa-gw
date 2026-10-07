@@ -3,11 +3,26 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
 
 OKABE_ITO = {'black': '#000000', 'orange': '#E69F00', 'skyblue': '#56B4E9', 'bluishgreen': '#009E73', 'yellow': '#F0E442', 'blue': '#0072B2', 'vermillion': '#D55E00', 'purple': '#CC79A7', 'grey': '#999999'}
-CLASSES = ['dangling bond', 'bond break', 'polaron', 'substitutional', 'interstitial']
-COL = dict(zip(CLASSES, (OKABE_ITO[k] for k in ('vermillion', 'blue', 'bluishgreen', 'purple', 'orange'))))
-MARK = dict(zip(CLASSES, 'osD^v'))                                          # colour is never the only encoding
+KNOWN = ['dangling bond', 'bond break', 'polaron', 'substitutional', 'interstitial']    # kinds of the example data, in display order
+PALETTE = [OKABE_ITO[k] for k in ('vermillion', 'blue', 'bluishgreen', 'purple', 'orange', 'skyblue', 'yellow', 'grey', 'black')]; MARKERS = 'osD^v<>phX'   # colour is never the only encoding
 INK, GREY = OKABE_ITO['black'], OKABE_ITO['grey']
 ONE_COLUMN, TWO_COLUMN = 3.35, 7.35                                        # journal column widths (in)
+
+
+def classes_of(kinds):
+    """Class names in display order: the known kinds first, the rest alphabetically."""
+    kinds = set(kinds); return [k for k in KNOWN if k in kinds] + sorted(kinds - set(KNOWN))
+
+
+def palette(classes):
+    """Colour and marker of each class."""
+    return {c: PALETTE[i % len(PALETTE)] for i, c in enumerate(classes)}, {c: MARKERS[i % len(MARKERS)] for i, c in enumerate(classes)}
+
+
+def two_line(name):
+    """A class name on two lines for a narrow axis."""
+    fixed = {'substitutional': 'substitu-\ntional', 'interstitial': 'inter-\nstitial'}
+    return fixed.get(name, name.replace(' ', '\n', 1) if ' ' in name else name)
 
 
 def apply():

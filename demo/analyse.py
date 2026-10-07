@@ -12,8 +12,9 @@ from sagw.structures import read_structure_files
 from sagw.network import Network
 from sagw import descriptors, models
 from sagw.spin import carries, shares
+sys.path.insert(0, str(ROOT / 'demo')); from style import classes_of
 
-DATA, OUT = ROOT / 'example/data', ROOT / 'demo/out'; CLASSES = ['dangling bond', 'bond break', 'polaron', 'substitutional', 'interstitial']; SEED = 0; REPEATS = 10
+DATA, OUT = ROOT / 'example/data', ROOT / 'demo/out'; SEED = 0; REPEATS = 10
 PENALTIES = [('ridge', a) for a in np.logspace(-3, 2, 16)]
 
 
@@ -33,7 +34,7 @@ def auc_pair(x, y, a, b):
 
 
 def main():
-    net = Network.load(DATA / 'network.json'); SCALES = net.scales; ev = pd.read_csv(OUT / 'events.csv'); z = np.load(OUT / 'fingerprint.npz', allow_pickle=True); S = z['S'].astype(float); trap = z['trap']; y = ev.kind.to_numpy(); nb = len(ev); ar = np.arange(nb); n = S.shape[2]
+    net = Network.load(DATA / 'network.json'); SCALES = net.scales; ev = pd.read_csv(OUT / 'events.csv'); z = np.load(OUT / 'fingerprint.npz', allow_pickle=True); S = z['S'].astype(float); trap = z['trap']; y = ev.kind.to_numpy(); nb = len(ev); ar = np.arange(nb); n = S.shape[2]; CLASSES = classes_of(y)
     V0, V1 = S[ar, 0, trap], S[ar, 1, trap]; struct = lambda v: v[:, :, :7].reshape(nb, -1); flat = lambda v: v.reshape(nb, -1)
     # identification of the five classes, held out, against the count of contacts and the size of the relaxation
     sets = {'contacts and deformation': ev[['contacts_before', 'contacts_after', 'graph_deformation_A2', 'max_displacement_A']].to_numpy(float),

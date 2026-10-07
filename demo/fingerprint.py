@@ -22,12 +22,12 @@ def main():
     for q, st in enumerate(('P', 'T')):
         t = e[e.state == st]; share[t.b.to_numpy(), q, t.atom.to_numpy() - 1] = t.share.to_numpy()
     Fs = np.stack([np.stack([structural_channels(pos[b, q], cell[b], sym[b], net) for q in range(2)]) for b in range(nb)])
-    mu, sd = Fs[:, 0].reshape(-1, 7).mean(0), Fs[:, 0].reshape(-1, 7).std(0)
+    mu, sd = Fs[:, 0].reshape(-1, 7).mean(0), Fs[:, 0].reshape(-1, 7).std(0); sd = np.where(sd > 1e-12, sd, 1.0)                # a channel without spread stays centred
     F = np.empty((nb, 2, n, len(CHANNELS))); F[..., :7] = Fs; F[..., 7] = site; F[..., 8] = shell - site; F[..., 9] = share; F[..., 10] = np.log(share)
     Z = np.empty_like(F); Z[..., :7] = (Fs - mu) / sd; C = F[..., 7:].copy()
     for m in (role, ~role):                                                 # field channels: centred by role, one spread for both
         C[:, 0][m] -= F[:, 0][m][:, 7:].mean(0); C[:, 1][m] -= F[:, 0][m][:, 7:].mean(0)
-    Z[..., 7:] = C / C[:, 0].reshape(-1, 4).std(0)
+    sdc = C[:, 0].reshape(-1, 4).std(0); Z[..., 7:] = C / np.where(sdc > 1e-12, sdc, 1.0)
     S = np.empty((nb, 2, n, len(SCALES), len(CHANNELS)), np.float32); hop = np.zeros((nb, n), np.int16); rows = []
     for b in range(nb):
         d = [distances(pos[b, q], cell[b]) for q in range(2)]; contact = [contact_graph(d[q], role[b], net) for q in range(2)]; w = [graph_weights(d[q], contact[q], net) for q in range(2)]
