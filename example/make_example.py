@@ -1,23 +1,25 @@
-#!/usr/bin/env python3
-"""Synthetic example data: random network glasses (four-fold A bridged by two-fold B), one trapping event per cell of five kinds, each with a level, a well and an electron share.
-    python3 example/make_example.py [out_dir]     (deterministic; fifteen minutes)"""
+"""Synthetic example data: random A-B network glasses (four-coordinate A, two-coordinate bridging B), one trapping event per cell of five types,
+each with a level, a well and an electron share.
+    python3 example/make_example.py [out_dir]     (deterministic for given NumPy and SciPy versions; twelve minutes)"""
 import sys
 from pathlib import Path
 import numpy as np, pandas as pd
 from scipy.optimize import minimize
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from sagw.structures import minimum_image, separations, distances
-from sagw.graph import contact_graph, graph_weights, bonds_from, structural_channels, operator, scattering
+from sagw.graph import contact_graph, graph_weights, bonds_from, structural_channels
 from sagw.network import Network
+from sagw.potential import reference_to_species
 
 SEED = 7; N_A, N_B = 40, 79; NUMBER_DENSITY = 0.066; R0 = 1.62                 # atoms per A3 and bond length (A) of a typical network glass
-NET = Network.from_bond_length(role_a=('A', 'X', 'I'), expected={'A': 4, 'B': 2, 'X': 4, 'I': 2}, ideal_cosine={'A': -1 / 3, 'B': -0.82, 'X': -1 / 3, 'I': -1.0}, bond=R0)   # the settings every script reads (data/network.json)
-CLASSES = ('dangling bond', 'bond break', 'polaron', 'substitutional', 'interstitial'); PER_CLASS = 20; MADE_PER_CLASS = 30; RELOCATE = 4     # of the cells made, the ones nearest the class median of the readings are kept
-OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent / 'data'
-GAP = 8.0                                                                   # eV; levels are eV below the conduction band edge
+NET = Network.from_bond_length(role_a=('A', 'X', 'I'), expected={'A': 4, 'B': 2, 'X': 4, 'I': 2}, ideal_cosine={'A': -1 / 3, 'B': -0.82, 'X': -1 / 3, 'I': -0.29}, bond=R0,
+                              reference={'X': 'A', 'I': 'A'})            # the settings every script reads (data/network.json); the interstitial site opens B-I-B to about 107 degrees
+CLASSES = ('dangling bond', 'bond break', 'polaron', 'substitutional', 'interstitial'); PER_CLASS = 20; RELOCATE = 4
+DATA = Path(__file__).resolve().parent / 'data'
+GAP = 8.0                                                                   # eV; levels are E - E_CB
 LEVEL = {'dangling bond': ((-2.5, 0.40), (-5.6, 0.30)), 'bond break': ((-0.3, 0.15), (-5.6, 0.30)), 'polaron': ((-0.15, 0.10), (-4.0, 0.40)),
          'substitutional': ((-1.3, 0.30), (-0.3, 0.07)), 'interstitial': ((-6.8, 0.20), (-0.3, 0.07))}         # the empty level before trapping (mean, spread); after: the occupied level, or its shift for a fixed impurity level
-Q_REF = {'dangling bond': 0.12, 'bond break': 0.5, 'polaron': 0.3}       # nominal graph deformation (A2); an intrinsic level deepens with the log of the deformation
+Q_REF = {'dangling bond': 0.024, 'bond break': 0.25, 'polaron': 0.034}   # typical graph deformation of the type (A2): the level takes its listed value there and deepens with the log of a larger one
 WELL = {'dangling bond': ((-1.2, 1.6), (-1.3, 1.6)), 'bond break': ((-0.35, 0.5), (-1.15, 1.5)), 'polaron': ((-0.3, 0.5), (-1.0, 0.7)),
         'substitutional': ((-0.9, 1.0), (-0.95, 1.0)), 'interstitial': ((-1.3, 1.2), (-1.35, 1.2))}           # potential at the site and confinement (eV) at the trap atom, before and after
 WIDTH = {'dangling bond': (0.4, 0.4), 'bond break': (3.0, 0.45), 'polaron': (3.0, None), 'substitutional': (0.4, 0.4), 'interstitial': (0.35, 0.35)}   # decay of the electron share (bonds), before and after
@@ -29,7 +31,7 @@ def bonds_of(pos, cell, role, want):
     for k in order:
         i, j = ii[k], jj[k]
         if free[i] > 0 and free[j] > 0 and d[i, j] < 3.6: b.append((i, j)); free[i] -= 1; free[j] -= 1
-    for i in set(range(n)) - set(np.array(b).ravel()):                     # an atom left without a bond takes its nearest unlike atom
+    for i in set(range(n)) - set(np.array(b).ravel()):                     # an atom left without a bond takes its nearest atom of the other type
         opp = np.flatnonzero(role != role[i]); j = int(opp[np.argmin(d[i, opp])]); b.append((min(i, j), max(i, j)))
     b = np.array(sorted(b)); tri = []
     for i in range(n):
@@ -74,7 +76,7 @@ def network(rng, n_a, n_b, n_defects, inflate=1.35):
 
 
 def sites(sym, pos, cell):
-    """Three- and four-coordinate A atoms whose next neighbour is clear of the contact cutoff."""
+    """Three- and four-coordinate A atoms whose next B neighbour lies well beyond the bond cutoff."""
     role = NET.role_of(sym); d = distances(pos, cell); z = contact_graph(d, role, NET).sum(1); o = d + np.where(role[:, None] == role[None, :], 99, 0) + 99 * np.eye(len(sym)); srt = np.sort(o, 1)
     three = np.flatnonzero(role & (z == 3) & (srt[:, 3] > 2.7)); four = np.flatnonzero(role & (z == 4) & (srt[:, 3] < 2.1) & (srt[:, 4] > 2.7)); return z, three, four
 
@@ -92,15 +94,16 @@ def interstitial_site(sym, pos, cell):
     return None
 
 
-def signature(kind, sym, pos, anion, cell, trap):
-    """True when the trap atom shows its class in the contact graph and no atom is left without a contact."""
-    z = [contact_graph(distances(p, cell), NET.role_of(sym), NET).sum(1) for p in (pos, anion)]; z0, z1 = z[0][trap], z[1][trap]
+def signature(kind, sym, pos, charged, cell, trap):
+    """True when the trap atom has the bond counts of its type and every atom keeps a bond."""
+    z = [contact_graph(distances(p, cell), NET.role_of(sym), NET).sum(1) for p in (pos, charged)]; z0, z1 = z[0][trap], z[1][trap]
     ok = {'dangling bond': z0 == 3 and z1 == 3, 'bond break': z0 == 4 and z1 <= 3, 'polaron': z0 == 4 and z1 == 4, 'substitutional': z0 == 4 and z1 == 4, 'interstitial': z0 == 2 and z1 == 3}[kind]
     return bool(ok) and z[0].min() >= 1 and z[1].min() >= 1
 
 
 def pick(kind, sym, pos, cell, three, four):
-    """The trapping site of a class: the most regular three-fold site for a dangling bond, the most strained four-fold site for a bond break, the most regular four-fold site otherwise."""
+    """The trap site of a type: the most regular three-coordinate A for a dangling bond, the most strained four-coordinate A for a bond break, the
+    most regular four-coordinate A otherwise."""
     F = structural_channels(pos, cell, sym, NET); regular = F[:, 3] + 0.3 * F[:, 6]
     if kind == 'dangling bond': return int(three[np.argmin(regular[three])])
     if kind == 'bond break': return int(four[np.argmax(F[four, 3])])
@@ -108,11 +111,11 @@ def pick(kind, sym, pos, cell, three, four):
 
 
 def event(rng, sym, pos, cell, kind):
-    """Neutral and relaxed-anion structures of one event and its trap atom (the precursor atom is set later)."""
-    sym = sym.copy(); pos = pos.copy(); z, three, four = sites(sym, pos, cell); d = distances(pos, cell); v = separations(pos, cell)
+    """Neutral and charged structures of one event, the charged one displaced by the rule of its type, and its trap atom."""
+    sym = sym.copy(); pos = pos.copy(); _, three, four = sites(sym, pos, cell); d = distances(pos, cell); v = separations(pos, cell)
     unit = lambda x: x / np.linalg.norm(x); rnd = lambda: unit(rng.normal(size=3))
     if kind == 'interstitial':
-        p, i, j = interstitial_site(sym, pos, cell); sym = np.append(sym, 'I'); pos = np.vstack([pos, p]); trap = len(sym) - 1
+        p, _, _ = interstitial_site(sym, pos, cell); sym = np.append(sym, 'I'); pos = np.vstack([pos, p]); trap = len(sym) - 1
     else:
         trap = pick(kind, sym, pos, cell, three, four); nbr = np.flatnonzero(contact_graph(d, NET.role_of(sym), NET)[trap])
     if kind == 'substitutional':
@@ -122,10 +125,19 @@ def event(rng, sym, pos, cell, kind):
     role = NET.role_of(sym); d = distances(pos, cell); v = separations(pos, cell); contact = contact_graph(d, role, NET); nbr = np.flatnonzero(contact[trap]); hop = bonds_from(contact, trap); u = rng.normal(0, 0.01, pos.shape)
     out = lambda i: unit(minimum_image(pos[i] - pos[trap], cell))                                                        # outward from the trap atom
     shell = lambda h, a: u.__setitem__(hop == h, u[hop == h] + a * np.array([out(i) for i in np.flatnonzero(hop == h)]).reshape(-1, 3))
+
+    def swing(i, j, r):
+        """Displacement that moves atom i to distance r from atom j by turning it about its other bonded atom, bond length kept: the nearest such point at
+        least 2.2 A from every other atom."""
+        oth = np.flatnonzero(contact[i] & (np.arange(len(sym)) != j)); k = oth[np.argmin(d[i, oth])]; c = pos[k]; a = c + minimum_image(pos[j] - c, cell); p = c + minimum_image(pos[i] - c, cell)
+        s = np.linalg.norm(p - c); D = np.linalg.norm(a - c); n = (a - c) / D; x = (D ** 2 + s ** 2 - r ** 2) / (2 * D); e1 = unit((p - c) - ((p - c) @ n) * n); e2 = np.cross(n, e1)
+        phi = np.linspace(0, 2 * np.pi, 72, endpoint=False); ring = c + x * n + np.sqrt(max(s ** 2 - x ** 2, 0)) * (np.cos(phi)[:, None] * e1 + np.sin(phi)[:, None] * e2)
+        clear = np.array([np.delete(np.linalg.norm(minimum_image(pos - q, cell), axis=1), [i, j, k]).min() > 2.2 for q in ring]); ring = ring[clear] if clear.any() else ring
+        return ring[np.argmin(np.linalg.norm(ring - p, axis=1))] - p
     if kind == 'dangling bond':                                            # compact: the trap atom pyramidalises and its three bonds lengthen a little
         u[trap] += 0.15 * unit(-v[trap, nbr].sum(0)); u[nbr] += 0.02 * v[trap, nbr] / d[trap, nbr][:, None]; shell(2, 0.01)
-    elif kind == 'bond break':                                             # the strained bond breaks: that B leaves, the A settles on the other three
-        far = nbr[np.argmax(d[trap, nbr])]; keep = nbr[nbr != far]; u[far] += (2.75 - d[trap, far]) * unit(v[trap, far]); u[trap] += 0.30 * unit(v[trap, keep].sum(0)); u[keep] += 0.10 * np.array([out(i) for i in keep]); shell(2, 0.04); shell(3, 0.02)
+    elif kind == 'bond break':                                             # the strained bond breaks: that B swings away on its other bond, the A pyramidalises on the other three
+        far = nbr[np.argmax(d[trap, nbr])]; keep = nbr[nbr != far]; u[far] += swing(far, trap, 2.75); u[trap] += 0.15 * unit(-v[trap, keep].sum(0)); u[keep] += 0.10 * np.array([out(i) for i in keep]); shell(2, 0.04); shell(3, 0.02)
     elif kind == 'polaron':                                                # collective: every bond of the trap atom lengthens and the shells beyond breathe outwards
         u[trap] += 0.05 * rnd(); u[nbr] += 0.15 * v[trap, nbr] / d[trap, nbr][:, None]; [shell(h, a) for h, a in ((2, 0.10), (3, 0.06), (4, 0.04), (5, 0.02))]
     elif kind == 'substitutional':                                         # off-centre: the impurity moves towards two of its neighbours
@@ -133,83 +145,70 @@ def event(rng, sym, pos, cell, kind):
     else:                                                                  # the interstitial binds a third B atom
         cand = np.flatnonzero(~role & ~contact[trap] & (d[trap] > 2.6) & (d[trap] < 3.0)); third = cand[np.argmin(d[trap, cand])]
         u[trap] += (d[trap, third] - 2.0) * unit(v[trap, third]); u[third] += 0.10 * unit(-v[trap, third]); u[nbr] += 0.06 * np.array([out(i) for i in nbr]); shell(2, 0.03)
-    return sym, pos, (pos + u) % cell, trap, trap
+    return sym, pos, (pos + u) % cell, trap
 
 
-def potentials_of(rng, sym, pos, anion, cell, trap, kind):
-    """Synthetic potential at the site and over the shell (eV) of every atom at both endpoints."""
-    n = len(sym); F = [structural_channels(p, cell, sym, NET) for p in (pos, anion)]; hop = [bonds_from(contact_graph(distances(p, cell), NET.role_of(sym), NET), trap) for p in (pos, anion)]
-    site = np.stack([-0.8 * F[q][:, 0] + 0.15 * (F[q][:, 2] - R0) + rng.normal(0, 0.10, n) for q in range(2)])          # every atom: deeper where contacts are missing
-    contrast = np.stack([0.6 + 0.5 * F[q][:, 0] + rng.normal(0, 0.08, n) for q in range(2)])
+def potentials_of(rng, sym, pos, charged, cell, trap, kind):
+    """Synthetic potential energy at the site and over the shell (eV) of every atom in both structures, referenced as for a cube."""
+    n = len(sym); F = [structural_channels(p, cell, sym, NET) for p in (pos, charged)]; hop = [bonds_from(contact_graph(distances(p, cell), NET.role_of(sym), NET), trap) for p in (pos, charged)]
+    site = np.stack([-0.8 * F[q][:, 0] + rng.normal(0, 0.10, n) for q in range(2)])                                    # every atom: deeper where bonds are missing
+    contrast = np.stack([0.2 + 0.5 * F[q][:, 0] + rng.normal(0, 0.08, n) for q in range(2)])                           # below the shallowest well of any type
     for q in range(2): site[q, trap], contrast[q, trap] = WELL[kind][q][0] + rng.normal(0, 0.08), WELL[kind][q][1] + rng.normal(0, 0.08)
     if kind == 'polaron': site[1, hop[1] == 1] -= 0.45; site[1, hop[1] == 2] -= 0.15                                  # the well that forms spreads over the neighbours
     if kind == 'bond break': site[1, hop[1] == 1] -= 0.2
-    return site, site + contrast
+    return tuple(np.stack([reference_to_species(x, sym, NET.reference) for x in v]) for v in (site, site + contrast))
 
 
-def shares_of(rng, sym, pos, anion, cell, trap, precursor, kind):
+def shares_of(rng, sym, pos, charged, cell, trap, precursor, kind):
     """Synthetic share of the added electron on every atom before (on the precursor) and after relaxation (on the trap atom)."""
-    role = NET.role_of(sym); n = len(sym); contact = [contact_graph(distances(p, cell), role, NET) for p in (pos, anion)]
+    role = NET.role_of(sym); n = len(sym); contact = [contact_graph(distances(p, cell), role, NET) for p in (pos, charged)]
     def share(h, width, neighbours=0.35, beyond=1.0):
-        w = np.exp(-h / width) * np.where(role, 1.0, 0.35) * rng.lognormal(0, 0.25, n); w[h == 1] *= neighbours / 0.35; w[h >= 2] *= beyond; return w / w.sum()
+        noise = rng.lognormal(0, 0.25, n); noise[h == 0] = noise.max()                                             # the atom carrying the state keeps the largest share
+        w = np.exp(-h / width) * np.where(role, 1.0, 0.35) * noise; w[h == 1] *= neighbours / 0.35; w[h >= 2] *= beyond; return w / w.sum()
     P = share(bonds_from(contact[0], precursor), WIDTH[kind][0]); h = bonds_from(contact[1], trap)
     T = share(h, 100.0, 0.6, 0.003) if kind == 'polaron' else share(h, WIDTH[kind][1])                                  # a polaron ends on the atom and its four neighbours
     return P, T
 
 
-def readings(cells):
-    """T0, eta and eta_t of the structural fingerprint at the trap atom of every cell, standardised over the cells made."""
-    F = [[structural_channels(p, c['cell'], c['sym'], NET) for p in (c['pos'], c['anion'])] for c in cells]; allF = np.concatenate([f[0] for f in F]); mu, sd = allF.mean(0), allF.std(0); sd = np.where(sd > 1e-12, sd, 1.0); out = []
-    for c, f in zip(cells, F):
-        S = []
-        for q, p in enumerate((c['pos'], c['anion'])):
-            d = distances(p, c['cell']); S.append(scattering(operator(graph_weights(d, contact_graph(d, NET.role_of(c['sym']), NET), NET)), (f[q] - mu) / sd, NET.scales)[c['trap']])
-        r0, r1 = np.linalg.norm(S[0], axis=1), np.linalg.norm(S[1] - S[0], axis=1); out.append([r0.sum(), r1.sum() / r0.sum()] + list(r1 / r0))
-    return np.array(out)
+def draw(rng, kind):
+    """A network with one trapping event, drawn again until the trap atom has the bond counts of its type: symbols, neutral and charged positions, cell,
+    trap."""
+    while True:
+        sym, pos, cell = network(rng, N_A, N_B - (kind == 'interstitial'), 2); z, three, four = sites(sym, pos, cell)
+        if not (z.min() >= 1 and z[NET.role_of(sym)].max() <= 4 and len(three) >= 1 and len(four) >= 2 and (kind != 'interstitial' or interstitial_site(sym, pos, cell) is not None)): continue
+        sym, pos, charged, trap = event(rng, sym, pos, cell, kind)
+        if signature(kind, sym, pos, charged, cell, trap): return sym, pos, charged, cell, trap
 
 
-def select(cells):
-    """The PER_CLASS cells of each class nearest to the class median of the readings, in the order made."""
-    R = readings(cells); kind = np.array([c['kind'] for c in cells]); keep = np.zeros(len(cells), bool)
-    for k in CLASSES:
-        m = np.flatnonzero(kind == k); z = (R[m] - np.median(R[m], 0)) / (np.median(np.abs(R[m] - np.median(R[m], 0)), 0) + 1e-9); keep[m[np.argsort(np.abs(z).sum(1))[:PER_CLASS]]] = True
-    return [c for c, k in zip(cells, keep) if k]
-
-
-def main():
-    rng = np.random.default_rng(SEED); (OUT / 'structures/q0').mkdir(parents=True, exist_ok=True); (OUT / 'structures/q-1').mkdir(parents=True, exist_ok=True); NET.save(OUT / 'network.json')
-    kinds = [k for k in CLASSES for _ in range(MADE_PER_CLASS)]; rng.shuffle(kinds); cells = []
-    for k, kind in enumerate(kinds):
-        while True:
-            sym, pos, cell = network(rng, N_A, N_B - (kind == 'interstitial'), 2); z, three, four = sites(sym, pos, cell)
-            if not (z.min() >= 1 and z[NET.role_of(sym)].max() <= 4 and len(three) >= 1 and len(four) >= 2 and (kind != 'interstitial' or interstitial_site(sym, pos, cell) is not None)): continue
-            sym, pos, anion, trap, precursor = event(rng, sym, pos, cell, kind)
-            if signature(kind, sym, pos, anion, cell, trap): break
-        site, shell = potentials_of(rng, sym, pos, anion, cell, trap, kind)
-        d0 = distances(pos, cell); w = graph_weights(d0, contact_graph(d0, NET.role_of(sym), NET), NET); u = minimum_image(anion - pos, cell); u -= u.mean(0)
+def main(out=DATA):
+    rng = np.random.default_rng(SEED); (out / 'structures/q0').mkdir(parents=True, exist_ok=True); (out / 'structures/q-1').mkdir(parents=True, exist_ok=True); NET.save(out / 'network.json')
+    kinds = [k for k in CLASSES for _ in range(PER_CLASS)]; rng.shuffle(kinds); cells = []
+    for kind in kinds:
+        sym, pos, charged, cell, trap = draw(rng, kind); precursor = trap
+        site, shell = potentials_of(rng, sym, pos, charged, cell, trap, kind)
+        d0 = distances(pos, cell); w = graph_weights(d0, contact_graph(d0, NET.role_of(sym), NET), NET); u = minimum_image(charged - pos, cell); u -= u.mean(0)
         qd = 0.5 * (w * ((u[:, None] - u[None]) ** 2).sum(2)).sum()
         (b_mu, b_sd), (a_mu, a_sd) = LEVEL[kind]; before = float(np.clip(b_mu + rng.normal(0, b_sd), -GAP + 0.3, -0.05))                # every level lies in the gap
         after = a_mu + rng.normal(0, a_sd) - 0.3 * np.log(qd / Q_REF[kind]) if kind in Q_REF else before + a_mu + rng.normal(0, a_sd); after = float(np.clip(after, -GAP + 0.2, before - 0.05))
         e_stab = 0.15 * (before - after) - 0.05 * qd + 0.05 + rng.normal(0, 0.02)                                     # the level drop, less the elastic cost
-        cells.append(dict(kind=kind, sym=sym, pos=pos, anion=anion, cell=cell, trap=trap, precursor=precursor, site=site, shell=shell, before=before, after=after, e_stab=e_stab))
-        print(f'made {k + 1}/{len(kinds)}', kind, 'trap', trap + 1, sym[trap], 'precursor', precursor + 1, f'level {before:.2f} -> {after:.2f}', f'E_stab {e_stab:.2f}', flush=True)
-    kept = select(cells); planted = 0
-    for c in kept:                                                              # the electron first sits on the other dangling bond in RELOCATE of the kept cells
+        cells.append(dict(kind=kind, sym=sym, pos=pos, charged=charged, cell=cell, trap=trap, precursor=precursor, site=site, shell=shell, before=before, after=after, e_stab=e_stab))
+    planted = 0
+    for c in cells:                                                              # in RELOCATE dangling-bond cells the electron starts on another three-coordinate A
         other = np.flatnonzero(NET.role_of(c['sym']) & (contact_graph(distances(c['pos'], c['cell']), NET.role_of(c['sym']), NET).sum(1) == 3) & (np.arange(len(c['sym'])) != c['trap']))
         if c['kind'] == 'dangling bond' and planted < RELOCATE and len(other): c['precursor'] = int(rng.choice(other)); planted += 1
-        c['P'], c['T'] = shares_of(rng, c['sym'], c['pos'], c['anion'], c['cell'], c['trap'], c['precursor'], c['kind'])
+        c['P'], c['T'] = shares_of(rng, c['sym'], c['pos'], c['charged'], c['cell'], c['trap'], c['precursor'], c['kind'])
     rows, pots, els = [], [], []
-    for k, c in enumerate(kept):
+    for k, c in enumerate(cells):
         name = f'cell_{k + 1:03d}'; sym = c['sym']
-        for q, p in (('q0', c['pos']), ('q-1', c['anion'])):
+        for q, p in (('q0', c['pos']), ('q-1', c['charged'])):
             lat = ' '.join(f'{x:.6f}' for x in np.diag(c['cell']).ravel())
-            (OUT / 'structures' / q / f'{name}.extxyz').write_text(f'{len(sym)}\nLattice="{lat}" Properties=species:S:1:pos:R:3 pbc="T T T" cell={name} charge={0 if q == "q0" else -1}\n' + ''.join(f'{s:2s} {x:14.8f} {y:14.8f} {z:14.8f}\n' for s, (x, y, z) in zip(sym, p)))
+            (out / 'structures' / q / f'{name}.extxyz').write_text(f'{len(sym)}\nLattice="{lat}" Properties=species:S:1:pos:R:3 pbc="T T T" cell={name} charge={0 if q == "q0" else -1}\n' + ''.join(f'{s:2s} {x:14.8f} {y:14.8f} {z:14.8f}\n' for s, (x, y, z) in zip(sym, p)))
         rows.append(dict(cell=name, kind=c['kind'], trap_atom=c['trap'] + 1, precursor_atom=c['precursor'] + 1, level_before_eV=round(float(c['before']), 4), level_after_eV=round(float(c['after']), 4), stabilisation_eV=round(float(c['e_stab']), 4))); pots.append((c['site'], c['shell']))
-        for st in ('P', 'T'): els += [dict(cell=name, state=st, atom=i + 1, species=sym[i], share=float(c[st][i])) for i in range(len(sym))]
-    pd.DataFrame(rows).to_csv(OUT / 'events.csv', index=False)
-    np.savez_compressed(OUT / 'potentials.npz', cells=np.array([r['cell'] for r in rows]), site_eV=np.array([p[0] for p in pots]), shell_eV=np.array([p[1] for p in pots]))
-    pd.DataFrame(els).to_parquet(OUT / 'electron.parquet', index=False); print(f'{len(rows)} cells kept of {len(cells)} made, written to {OUT}')
+        for st in ('P', 'T'): els += [dict(cell=name, state=st, atom=i + 1, species=sym[i], share=round(float(c[st][i]), 6)) for i in range(len(sym))]   # the resolution of a printed Mulliken spin
+    pd.DataFrame(rows).to_csv(out / 'events.csv', index=False)
+    np.savez_compressed(out / 'potentials.npz', cells=np.array([r['cell'] for r in rows]), site_eV=np.array([p[0] for p in pots]), shell_eV=np.array([p[1] for p in pots]))
+    pd.DataFrame(els).to_parquet(out / 'electron.parquet', index=False)
 
 
 if __name__ == '__main__':
-    main()
+    main(Path(sys.argv[1]) if len(sys.argv) > 1 else DATA)

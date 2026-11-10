@@ -1,0 +1,5 @@
+planted,flagged,events
+True,True,4
+True,False,0
+False,True,0
+False,False,96

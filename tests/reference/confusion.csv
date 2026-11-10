@@ -1,0 +1,126 @@
+features,true,predicted,count
+bond counts and deformation,dangling bond,dangling bond,20
+bond counts and deformation,dangling bond,bond break,0
+bond counts and deformation,dangling bond,polaron,0
+bond counts and deformation,dangling bond,substitutional,0
+bond counts and deformation,dangling bond,interstitial,0
+bond counts and deformation,bond break,dangling bond,0
+bond counts and deformation,bond break,bond break,20
+bond counts and deformation,bond break,polaron,0
+bond counts and deformation,bond break,substitutional,0
+bond counts and deformation,bond break,interstitial,0
+bond counts and deformation,polaron,dangling bond,0
+bond counts and deformation,polaron,bond break,0
+bond counts and deformation,polaron,polaron,20
+bond counts and deformation,polaron,substitutional,0
+bond counts and deformation,polaron,interstitial,0
+bond counts and deformation,substitutional,dangling bond,0
+bond counts and deformation,substitutional,bond break,0
+bond counts and deformation,substitutional,polaron,0
+bond counts and deformation,substitutional,substitutional,20
+bond counts and deformation,substitutional,interstitial,0
+bond counts and deformation,interstitial,dangling bond,0
+bond counts and deformation,interstitial,bond break,0
+bond counts and deformation,interstitial,polaron,0
+bond counts and deformation,interstitial,substitutional,0
+bond counts and deformation,interstitial,interstitial,20
+neutral fingerprint V0 (structure),dangling bond,dangling bond,20
+neutral fingerprint V0 (structure),dangling bond,bond break,0
+neutral fingerprint V0 (structure),dangling bond,polaron,0
+neutral fingerprint V0 (structure),dangling bond,substitutional,0
+neutral fingerprint V0 (structure),dangling bond,interstitial,0
+neutral fingerprint V0 (structure),bond break,dangling bond,0
+neutral fingerprint V0 (structure),bond break,bond break,20
+neutral fingerprint V0 (structure),bond break,polaron,0
+neutral fingerprint V0 (structure),bond break,substitutional,0
+neutral fingerprint V0 (structure),bond break,interstitial,0
+neutral fingerprint V0 (structure),polaron,dangling bond,0
+neutral fingerprint V0 (structure),polaron,bond break,1
+neutral fingerprint V0 (structure),polaron,polaron,19
+neutral fingerprint V0 (structure),polaron,substitutional,0
+neutral fingerprint V0 (structure),polaron,interstitial,0
+neutral fingerprint V0 (structure),substitutional,dangling bond,0
+neutral fingerprint V0 (structure),substitutional,bond break,0
+neutral fingerprint V0 (structure),substitutional,polaron,0
+neutral fingerprint V0 (structure),substitutional,substitutional,20
+neutral fingerprint V0 (structure),substitutional,interstitial,0
+neutral fingerprint V0 (structure),interstitial,dangling bond,0
+neutral fingerprint V0 (structure),interstitial,bond break,0
+neutral fingerprint V0 (structure),interstitial,polaron,0
+neutral fingerprint V0 (structure),interstitial,substitutional,0
+neutral fingerprint V0 (structure),interstitial,interstitial,20
+response V- - V0 (structure),dangling bond,dangling bond,18
+response V- - V0 (structure),dangling bond,bond break,0
+response V- - V0 (structure),dangling bond,polaron,2
+response V- - V0 (structure),dangling bond,substitutional,0
+response V- - V0 (structure),dangling bond,interstitial,0
+response V- - V0 (structure),bond break,dangling bond,0
+response V- - V0 (structure),bond break,bond break,20
+response V- - V0 (structure),bond break,polaron,0
+response V- - V0 (structure),bond break,substitutional,0
+response V- - V0 (structure),bond break,interstitial,0
+response V- - V0 (structure),polaron,dangling bond,2
+response V- - V0 (structure),polaron,bond break,0
+response V- - V0 (structure),polaron,polaron,18
+response V- - V0 (structure),polaron,substitutional,0
+response V- - V0 (structure),polaron,interstitial,0
+response V- - V0 (structure),substitutional,dangling bond,0
+response V- - V0 (structure),substitutional,bond break,0
+response V- - V0 (structure),substitutional,polaron,1
+response V- - V0 (structure),substitutional,substitutional,19
+response V- - V0 (structure),substitutional,interstitial,0
+response V- - V0 (structure),interstitial,dangling bond,0
+response V- - V0 (structure),interstitial,bond break,0
+response V- - V0 (structure),interstitial,polaron,0
+response V- - V0 (structure),interstitial,substitutional,0
+response V- - V0 (structure),interstitial,interstitial,20
+neutral and response (structure),dangling bond,dangling bond,20
+neutral and response (structure),dangling bond,bond break,0
+neutral and response (structure),dangling bond,polaron,0
+neutral and response (structure),dangling bond,substitutional,0
+neutral and response (structure),dangling bond,interstitial,0
+neutral and response (structure),bond break,dangling bond,0
+neutral and response (structure),bond break,bond break,20
+neutral and response (structure),bond break,polaron,0
+neutral and response (structure),bond break,substitutional,0
+neutral and response (structure),bond break,interstitial,0
+neutral and response (structure),polaron,dangling bond,2
+neutral and response (structure),polaron,bond break,0
+neutral and response (structure),polaron,polaron,18
+neutral and response (structure),polaron,substitutional,0
+neutral and response (structure),polaron,interstitial,0
+neutral and response (structure),substitutional,dangling bond,0
+neutral and response (structure),substitutional,bond break,0
+neutral and response (structure),substitutional,polaron,0
+neutral and response (structure),substitutional,substitutional,20
+neutral and response (structure),substitutional,interstitial,0
+neutral and response (structure),interstitial,dangling bond,0
+neutral and response (structure),interstitial,bond break,0
+neutral and response (structure),interstitial,polaron,0
+neutral and response (structure),interstitial,substitutional,0
+neutral and response (structure),interstitial,interstitial,20
+full fingerprint (all families),dangling bond,dangling bond,20
+full fingerprint (all families),dangling bond,bond break,0
+full fingerprint (all families),dangling bond,polaron,0
+full fingerprint (all families),dangling bond,substitutional,0
+full fingerprint (all families),dangling bond,interstitial,0
+full fingerprint (all families),bond break,dangling bond,0
+full fingerprint (all families),bond break,bond break,20
+full fingerprint (all families),bond break,polaron,0
+full fingerprint (all families),bond break,substitutional,0
+full fingerprint (all families),bond break,interstitial,0
+full fingerprint (all families),polaron,dangling bond,0
+full fingerprint (all families),polaron,bond break,0
+full fingerprint (all families),polaron,polaron,20
+full fingerprint (all families),polaron,substitutional,0
+full fingerprint (all families),polaron,interstitial,0
+full fingerprint (all families),substitutional,dangling bond,0
+full fingerprint (all families),substitutional,bond break,0
+full fingerprint (all families),substitutional,polaron,0
+full fingerprint (all families),substitutional,substitutional,20
+full fingerprint (all families),substitutional,interstitial,0
+full fingerprint (all families),interstitial,dangling bond,0
+full fingerprint (all families),interstitial,bond break,0
+full fingerprint (all families),interstitial,polaron,0
+full fingerprint (all families),interstitial,substitutional,0
+full fingerprint (all families),interstitial,interstitial,20

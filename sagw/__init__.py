@@ -1,2 +1,2 @@
-"""State-aligned graph wavelets: graph-wavelet fingerprints of trapping events in disordered networks."""
-__version__ = '1.0.0'
+"""State-aligned graph wavelets: graph-wavelet fingerprints of charge-trapping events in amorphous networks."""
+__version__ = '1.1.0'

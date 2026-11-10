@@ -2,4 +2,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 demo/out/
-example/make_example.log
+build/
+dist/
+*.egg-info/

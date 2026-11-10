@@ -1,0 +1,4 @@
+model,inputs,r2
+"structural response descriptors (ridge, held out)",215,0.9252388863856572
+graph deformation alone,1,0.225834997635411
+graph deformation and the trap type,6,0.9606860694414888

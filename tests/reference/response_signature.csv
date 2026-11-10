@@ -1,0 +1,276 @@
+kind,scale,channel,response
+dangling bond,0.5,coord_deficit,-0.4152462893810429
+dangling bond,0.5,contact_excess,-0.4233404357541145
+dangling bond,0.5,bond_mean_A,0.9768386860183929
+dangling bond,0.5,bond_std_A,1.3164789533649923
+dangling bond,0.5,outer_rank_distance_A,-0.7803007114490648
+dangling bond,0.5,next_rank_gap_A,-0.5053501644005678
+dangling bond,0.5,angle_cos_rms,0.7385620630729396
+dangling bond,0.5,site_potential_eV,-0.0483672396751399
+dangling bond,0.5,well_contrast_eV,-0.4442925376046401
+dangling bond,0.5,electron_share,-0.6183511844083309
+dangling bond,0.5,log_electron_share,0.0621423500543543
+dangling bond,1.0,coord_deficit,-0.2082616044746634
+dangling bond,1.0,contact_excess,-0.4964340927832634
+dangling bond,1.0,bond_mean_A,0.5811494075844308
+dangling bond,1.0,bond_std_A,0.4396575120652316
+dangling bond,1.0,outer_rank_distance_A,-0.302368768376026
+dangling bond,1.0,next_rank_gap_A,-0.2703176480372814
+dangling bond,1.0,angle_cos_rms,-0.0636564405566192
+dangling bond,1.0,site_potential_eV,0.3358174377283343
+dangling bond,1.0,well_contrast_eV,-0.3499875842737516
+dangling bond,1.0,electron_share,-0.4356087547748501
+dangling bond,1.0,log_electron_share,0.0276608423886669
+dangling bond,2.0,coord_deficit,-0.6968112463053012
+dangling bond,2.0,contact_excess,-0.49490322228987
+dangling bond,2.0,bond_mean_A,-0.0530159157678626
+dangling bond,2.0,bond_std_A,-0.5162476117107758
+dangling bond,2.0,outer_rank_distance_A,-0.7003418668375869
+dangling bond,2.0,next_rank_gap_A,-0.4952229470008529
+dangling bond,2.0,angle_cos_rms,-0.066879743327491
+dangling bond,2.0,site_potential_eV,-0.4554778994309284
+dangling bond,2.0,well_contrast_eV,-0.7480164412298599
+dangling bond,2.0,electron_share,-1.0971594324949538
+dangling bond,2.0,log_electron_share,-0.3204083550090278
+dangling bond,4.0,coord_deficit,-1.0977819764722971
+dangling bond,4.0,contact_excess,-0.4674223199590285
+dangling bond,4.0,bond_mean_A,-0.66249687102724
+dangling bond,4.0,bond_std_A,-0.6180703400057594
+dangling bond,4.0,outer_rank_distance_A,-1.0330719875694243
+dangling bond,4.0,next_rank_gap_A,-0.6908890428572986
+dangling bond,4.0,angle_cos_rms,0.1027049983902025
+dangling bond,4.0,site_potential_eV,-0.5792237042414423
+dangling bond,4.0,well_contrast_eV,-1.2459896685868723
+dangling bond,4.0,electron_share,-1.5486760065332228
+dangling bond,4.0,log_electron_share,-0.9671271584688548
+dangling bond,8.0,coord_deficit,-1.261841456507082
+dangling bond,8.0,contact_excess,-0.4440726244425603
+dangling bond,8.0,bond_mean_A,-0.6777324024371413
+dangling bond,8.0,bond_std_A,-0.7031955900427478
+dangling bond,8.0,outer_rank_distance_A,-0.704485474982965
+dangling bond,8.0,next_rank_gap_A,-0.4650869349726844
+dangling bond,8.0,angle_cos_rms,0.0845357510781854
+dangling bond,8.0,site_potential_eV,-0.564488274304976
+dangling bond,8.0,well_contrast_eV,-1.169526049862491
+dangling bond,8.0,electron_share,-1.6067907053632144
+dangling bond,8.0,log_electron_share,-1.171803197236703
+bond break,0.5,coord_deficit,2.0235023105177934
+bond break,0.5,contact_excess,-0.4233404357541144
+bond break,0.5,bond_mean_A,-0.2225098631416163
+bond break,0.5,bond_std_A,-0.0477121054893925
+bond break,0.5,outer_rank_distance_A,1.4344427700183089
+bond break,0.5,next_rank_gap_A,0.8425062584264498
+bond break,0.5,angle_cos_rms,-0.1000007463232957
+bond break,0.5,site_potential_eV,0.6283737806193355
+bond break,0.5,well_contrast_eV,1.2889505873381608
+bond break,0.5,electron_share,1.3975087694845172
+bond break,0.5,log_electron_share,0.4675870421969699
+bond break,1.0,coord_deficit,2.092953031748208
+bond break,1.0,contact_excess,-0.4964340927832634
+bond break,1.0,bond_mean_A,-0.0620773675377111
+bond break,1.0,bond_std_A,-0.2135703248995672
+bond break,1.0,outer_rank_distance_A,1.2128450864623894
+bond break,1.0,next_rank_gap_A,0.5376491870921954
+bond break,1.0,angle_cos_rms,0.7484678247581521
+bond break,1.0,site_potential_eV,0.4366678499935491
+bond break,1.0,well_contrast_eV,1.2508977072840488
+bond break,1.0,electron_share,1.0777163320857546
+bond break,1.0,log_electron_share,0.3812352347967339
+bond break,2.0,coord_deficit,1.4659271711823898
+bond break,2.0,contact_excess,-0.4949032222898699
+bond break,2.0,bond_mean_A,-0.0252181019374247
+bond break,2.0,bond_std_A,0.0020733368485003
+bond break,2.0,outer_rank_distance_A,0.9045027372065338
+bond break,2.0,next_rank_gap_A,0.3562887083393358
+bond break,2.0,angle_cos_rms,0.1405109010520503
+bond break,2.0,site_potential_eV,0.1269927694324109
+bond break,2.0,well_contrast_eV,1.176378374342317
+bond break,2.0,electron_share,0.896297973620916
+bond break,2.0,log_electron_share,0.6774489581446043
+bond break,4.0,coord_deficit,0.8471820033821389
+bond break,4.0,contact_excess,-0.4674223199590285
+bond break,4.0,bond_mean_A,0.1009208309150376
+bond break,4.0,bond_std_A,-0.1411291929850311
+bond break,4.0,outer_rank_distance_A,0.5961727102216038
+bond break,4.0,next_rank_gap_A,0.559586959307643
+bond break,4.0,angle_cos_rms,-0.4765001094756397
+bond break,4.0,site_potential_eV,0.0714067257084008
+bond break,4.0,well_contrast_eV,0.8694617488150138
+bond break,4.0,electron_share,0.5706004384933604
+bond break,4.0,log_electron_share,1.325194920716461
+bond break,8.0,coord_deficit,0.6458866092215877
+bond break,8.0,contact_excess,-0.4440726244425602
+bond break,8.0,bond_mean_A,0.1189004959796729
+bond break,8.0,bond_std_A,-0.1021581134092879
+bond break,8.0,outer_rank_distance_A,0.4529380062264308
+bond break,8.0,next_rank_gap_A,0.4165773113290284
+bond break,8.0,angle_cos_rms,-1.4100782978397826
+bond break,8.0,site_potential_eV,0.0840963496336196
+bond break,8.0,well_contrast_eV,0.7289776192474462
+bond break,8.0,electron_share,0.60295228487696
+bond break,8.0,log_electron_share,1.6687104993547328
+polaron,0.5,coord_deficit,-0.5369633040383122
+polaron,0.5,contact_excess,-0.4233404357541145
+polaron,0.5,bond_mean_A,0.2722249080521341
+polaron,0.5,bond_std_A,0.4993509002659086
+polaron,0.5,outer_rank_distance_A,-0.2583194085224586
+polaron,0.5,next_rank_gap_A,-0.3622879108698024
+polaron,0.5,angle_cos_rms,-0.1664849008421711
+polaron,0.5,site_potential_eV,0.4769545662650177
+polaron,0.5,well_contrast_eV,0.153291537248977
+polaron,0.5,electron_share,0.4784737920151278
+polaron,0.5,log_electron_share,1.3049218630733357
+polaron,1.0,coord_deficit,-0.5249715060176876
+polaron,1.0,contact_excess,-0.4964340927832634
+polaron,1.0,bond_mean_A,0.4671820926012062
+polaron,1.0,bond_std_A,0.4471589842455485
+polaron,1.0,outer_rank_distance_A,-0.7970055876856132
+polaron,1.0,next_rank_gap_A,-0.7187840735219091
+polaron,1.0,angle_cos_rms,0.284719711252111
+polaron,1.0,site_potential_eV,1.015333407960224
+polaron,1.0,well_contrast_eV,0.2486098791875149
+polaron,1.0,electron_share,0.9758171289359944
+polaron,1.0,log_electron_share,1.6087124959135295
+polaron,2.0,coord_deficit,-0.2093053892346009
+polaron,2.0,contact_excess,-0.4949032222898699
+polaron,2.0,bond_mean_A,0.5287525289987547
+polaron,2.0,bond_std_A,0.1986223630697741
+polaron,2.0,outer_rank_distance_A,-0.3979700680502022
+polaron,2.0,next_rank_gap_A,-0.6322822768123626
+polaron,2.0,angle_cos_rms,0.5972303516560866
+polaron,2.0,site_potential_eV,1.4424684790434932
+polaron,2.0,well_contrast_eV,0.4716127390222417
+polaron,2.0,electron_share,1.3352451198713604
+polaron,2.0,log_electron_share,1.5042121712892484
+polaron,4.0,coord_deficit,0.0641620454297083
+polaron,4.0,contact_excess,-0.4674223199590284
+polaron,4.0,bond_mean_A,0.5588771639737145
+polaron,4.0,bond_std_A,0.2184719745159092
+polaron,4.0,outer_rank_distance_A,0.1045646671887907
+polaron,4.0,next_rank_gap_A,-0.5698960923745438
+polaron,4.0,angle_cos_rms,0.6775628247900443
+polaron,4.0,site_potential_eV,1.4112571417515003
+polaron,4.0,well_contrast_eV,0.2063919141011646
+polaron,4.0,electron_share,1.2853658662105925
+polaron,4.0,log_electron_share,0.7753872055649635
+polaron,8.0,coord_deficit,0.2552593585446879
+polaron,8.0,contact_excess,-0.44407262444256
+polaron,8.0,bond_mean_A,0.1437023469808257
+polaron,8.0,bond_std_A,-0.0937501111635232
+polaron,8.0,outer_rank_distance_A,0.0887232360896407
+polaron,8.0,next_rank_gap_A,-0.3892169778804125
+polaron,8.0,angle_cos_rms,0.4875496159802819
+polaron,8.0,site_potential_eV,1.2432732166497296
+polaron,8.0,well_contrast_eV,0.1085504582316386
+polaron,8.0,electron_share,0.9105242377026912
+polaron,8.0,log_electron_share,-0.0203034844482837
+substitutional,0.5,coord_deficit,-0.2865033757103384
+substitutional,0.5,contact_excess,-0.4233404357541144
+substitutional,0.5,bond_mean_A,0.8845113671106196
+substitutional,0.5,bond_std_A,-1.3655288952610354
+substitutional,0.5,outer_rank_distance_A,-0.1451851737103146
+substitutional,0.5,next_rank_gap_A,-0.1353869001335506
+substitutional,0.5,angle_cos_rms,0.5246806591480757
+substitutional,0.5,site_potential_eV,-0.4602075287196756
+substitutional,0.5,well_contrast_eV,-0.6246561710215521
+substitutional,0.5,electron_share,-0.8617902693240581
+substitutional,0.5,log_electron_share,-0.7270732570627038
+substitutional,1.0,coord_deficit,-0.5544086903439067
+substitutional,1.0,contact_excess,-0.4964340927832634
+substitutional,1.0,bond_mean_A,0.5994766241711691
+substitutional,1.0,bond_std_A,0.7904571554099565
+substitutional,1.0,outer_rank_distance_A,0.556440575448173
+substitutional,1.0,next_rank_gap_A,0.0095141646101527
+substitutional,1.0,angle_cos_rms,-0.8370158804001849
+substitutional,1.0,site_potential_eV,-0.7894748328248196
+substitutional,1.0,well_contrast_eV,-0.7522451030611372
+substitutional,1.0,electron_share,-1.0329229901651882
+substitutional,1.0,log_electron_share,-0.8169933743176208
+substitutional,2.0,coord_deficit,-0.493618627808245
+substitutional,2.0,contact_excess,-0.4949032222898699
+substitutional,2.0,bond_mean_A,0.4183665747188594
+substitutional,2.0,bond_std_A,1.6936905587214386
+substitutional,2.0,outer_rank_distance_A,0.5227598558759391
+substitutional,2.0,next_rank_gap_A,0.2292327934796323
+substitutional,2.0,angle_cos_rms,-1.0516461923069604
+substitutional,2.0,site_potential_eV,-0.5509785109627375
+substitutional,2.0,well_contrast_eV,-0.2709059335099604
+substitutional,2.0,electron_share,-0.799261379565492
+substitutional,2.0,log_electron_share,-0.7598659172611235
+substitutional,4.0,coord_deficit,0.1314132000857134
+substitutional,4.0,contact_excess,-0.4674223199590283
+substitutional,4.0,bond_mean_A,0.7126862955192457
+substitutional,4.0,bond_std_A,1.825943460120257
+substitutional,4.0,outer_rank_distance_A,0.7943421177546075
+substitutional,4.0,next_rank_gap_A,-0.0336173397583168
+substitutional,4.0,angle_cos_rms,-0.1948974673432803
+substitutional,4.0,site_potential_eV,-0.3771910807707359
+substitutional,4.0,well_contrast_eV,0.2320811532689594
+substitutional,4.0,electron_share,-0.3893651646861811
+substitutional,4.0,log_electron_share,-0.7126688398876986
+substitutional,8.0,coord_deficit,-0.0455278005491673
+substitutional,8.0,contact_excess,-0.44407262444256
+substitutional,8.0,bond_mean_A,0.2549476368639281
+substitutional,8.0,bond_std_A,1.1370800966893442
+substitutional,8.0,outer_rank_distance_A,0.2749995174774984
+substitutional,8.0,next_rank_gap_A,-0.1112686565537461
+substitutional,8.0,angle_cos_rms,0.2783095597614336
+substitutional,8.0,site_potential_eV,-0.183311333639946
+substitutional,8.0,well_contrast_eV,0.2062936491182605
+substitutional,8.0,electron_share,-0.2524780332713761
+substitutional,8.0,log_electron_share,-0.5812418273652156
+interstitial,0.5,coord_deficit,-0.5601905528218323
+interstitial,0.5,contact_excess,1.2569712360637832
+interstitial,0.5,bond_mean_A,-1.4462575751630835
+interstitial,0.5,bond_std_A,-0.34756813341925
+interstitial,0.5,outer_rank_distance_A,0.1084730797676534
+interstitial,0.5,next_rank_gap_A,0.8465908149559198
+interstitial,0.5,angle_cos_rms,-1.097089768631084
+interstitial,0.5,site_potential_eV,-0.4846337472663736
+interstitial,0.5,well_contrast_eV,-0.4553807701304676
+interstitial,0.5,electron_share,-0.872335402077584
+interstitial,0.5,log_electron_share,-0.8961553339938744
+interstitial,1.0,coord_deficit,-0.5905712024311476
+interstitial,1.0,contact_excess,2.102420841455308
+interstitial,1.0,bond_mean_A,-1.302820851453762
+interstitial,1.0,bond_std_A,-1.039387191208451
+interstitial,1.0,outer_rank_distance_A,-0.2715401540771683
+interstitial,1.0,next_rank_gap_A,0.8451339403925128
+interstitial,1.0,angle_cos_rms,-0.123577126675054
+interstitial,1.0,site_potential_eV,-0.76485690792354
+interstitial,1.0,well_contrast_eV,-0.4979258593254242
+interstitial,1.0,electron_share,-1.03589286980083
+interstitial,1.0,log_electron_share,-1.0260806362929935
+interstitial,2.0,coord_deficit,-0.2945869517146151
+interstitial,2.0,contact_excess,2.0544785825643546
+interstitial,2.0,bond_mean_A,-1.03572555093207
+interstitial,2.0,bond_std_A,-0.764376813205506
+interstitial,2.0,outer_rank_distance_A,-0.5829743464625421
+interstitial,2.0,next_rank_gap_A,0.2860119876471871
+interstitial,2.0,angle_cos_rms,0.3000416305835203
+interstitial,2.0,site_potential_eV,-0.7265605558191337
+interstitial,2.0,well_contrast_eV,-0.4331113731611613
+interstitial,2.0,electron_share,-0.7204697510882745
+interstitial,2.0,log_electron_share,-1.002312561552391
+interstitial,4.0,coord_deficit,-0.1847881327701371
+interstitial,4.0,contact_excess,1.740609893691606
+interstitial,4.0,bond_mean_A,-0.5917646440387154
+interstitial,4.0,bond_std_A,-0.6470327101705151
+interstitial,4.0,outer_rank_distance_A,-0.3415870882391674
+interstitial,4.0,next_rank_gap_A,0.4349713885822783
+interstitial,4.0,angle_cos_rms,0.5915241843838299
+interstitial,4.0,site_potential_eV,-0.4993706860216094
+interstitial,4.0,well_contrast_eV,-0.0583331684740783
+interstitial,4.0,electron_share,-0.315069920964069
+interstitial,4.0,log_electron_share,-0.7008595198953262
+interstitial,8.0,coord_deficit,-0.2010429715165963
+interstitial,8.0,contact_excess,1.7365517968083353
+interstitial,8.0,bond_mean_A,-0.3811515936293789
+interstitial,8.0,bond_std_A,-0.5257035354527522
+interstitial,8.0,outer_rank_distance_A,-0.2612751021202193
+interstitial,8.0,next_rank_gap_A,0.3640956187550332
+interstitial,8.0,angle_cos_rms,0.4770721701937332
+interstitial,8.0,site_potential_eV,-0.4558657543686935
+interstitial,8.0,well_contrast_eV,0.0544775935343768
+interstitial,8.0,electron_share,-0.0420168006544775
+interstitial,8.0,log_electron_share,-0.2951218286425404

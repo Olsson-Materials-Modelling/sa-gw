@@ -1,0 +1,6 @@
+features,n_features,accuracy,accuracy_sd,chance
+bond counts and deformation,4,1.0,0.0,0.2
+neutral fingerprint V0 (structure),35,0.991,0.0053851648071345,0.2
+response V- - V0 (structure),35,0.9559999999999998,0.008,0.2
+neutral and response (structure),70,0.998,0.006,0.2
+full fingerprint (all families),110,1.0,0.0,0.2

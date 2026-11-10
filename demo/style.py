@@ -3,24 +3,24 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
 
 OKABE_ITO = {'black': '#000000', 'orange': '#E69F00', 'skyblue': '#56B4E9', 'bluishgreen': '#009E73', 'yellow': '#F0E442', 'blue': '#0072B2', 'vermillion': '#D55E00', 'purple': '#CC79A7', 'grey': '#999999'}
-KNOWN = ['dangling bond', 'bond break', 'polaron', 'substitutional', 'interstitial']    # kinds of the example data, in display order
+KNOWN = ['dangling bond', 'bond break', 'polaron', 'substitutional', 'interstitial']    # trap types of the example data, in display order
 PALETTE = [OKABE_ITO[k] for k in ('vermillion', 'blue', 'bluishgreen', 'purple', 'orange', 'skyblue', 'yellow', 'grey', 'black')]; MARKERS = 'osD^v<>phX'   # colour is never the only encoding
 INK, GREY = OKABE_ITO['black'], OKABE_ITO['grey']
-ONE_COLUMN, TWO_COLUMN = 3.35, 7.35                                        # journal column widths (in)
+TWO_COLUMN = 7.35                                                          # figure width (in)
 
 
 def classes_of(kinds):
-    """Class names in display order: the known kinds first, the rest alphabetically."""
+    """Trap types in display order: the known types first, then the rest alphabetically."""
     kinds = set(kinds); return [k for k in KNOWN if k in kinds] + sorted(kinds - set(KNOWN))
 
 
 def palette(classes):
-    """Colour and marker of each class."""
+    """Colour and marker of each trap type."""
     return {c: PALETTE[i % len(PALETTE)] for i, c in enumerate(classes)}, {c: MARKERS[i % len(MARKERS)] for i, c in enumerate(classes)}
 
 
 def two_line(name):
-    """A class name on two lines for a narrow axis."""
+    """A trap-type name on two lines for a narrow axis."""
     fixed = {'substitutional': 'substitu-\ntional', 'interstitial': 'inter-\nstitial'}
     return fixed.get(name, name.replace(' ', '\n', 1) if ' ' in name else name)
 
@@ -52,6 +52,8 @@ def panel_label(ax, label, x=-0.16, y=1.03):
 
 
 def save(fig, out, figures, name):
-    """PDF and 300 dpi PNG to the results, 200 dpi PNG to the figures, marked as synthetic data."""
-    fig.text(0.995, 0.995, 'synthetic data', ha='right', va='top', fontsize=7, color=GREY)
-    fig.savefig(out / f'{name}.pdf', bbox_inches='tight'); fig.savefig(out / f'{name}.png', dpi=300, bbox_inches='tight'); fig.savefig(figures / f'{name}.png', dpi=200, bbox_inches='tight'); plt.close(fig); print('wrote', name)
+    """PDF and 300 dpi PNG to the results and, when figures is a folder, a 200 dpi PNG there; marked as synthetic data, without software or date stamps."""
+    fig.text(0.995, 1.0, 'synthetic data', ha='right', va='bottom', fontsize=7, color=GREY); png = dict(metadata={'Software': None}, bbox_inches='tight')
+    fig.savefig(out / f'{name}.pdf', metadata={'Creator': None, 'Producer': None, 'CreationDate': None}, bbox_inches='tight'); fig.savefig(out / f'{name}.png', dpi=300, **png)
+    if figures: fig.savefig(figures / f'{name}.png', dpi=200, **png)
+    plt.close(fig)

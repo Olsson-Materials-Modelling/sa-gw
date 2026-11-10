@@ -1,4 +1,4 @@
-"""Held-out regression on descriptor blocks with every choice made inside the training cells."""
+"""Held-out regression on descriptor blocks, with every choice made inside the training folds."""
 import warnings
 import numpy as np
 from scipy.linalg import cho_factor, cho_solve
@@ -7,6 +7,8 @@ from sklearn.model_selection import StratifiedKFold
 
 
 def prepare(Xtr, Xte, gaussianise=False):
+    """Training and held-out blocks: missing values take the training median, optional normal scores, standardised on the training rows; constant and
+    duplicate columns dropped."""
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', RuntimeWarning); med = np.nanmedian(Xtr, axis=0)
     med = np.where(np.isfinite(med), med, 0.); tr = np.where(np.isfinite(Xtr), Xtr, med); te = np.where(np.isfinite(Xte), Xte, med)
@@ -16,15 +18,17 @@ def prepare(Xtr, Xte, gaussianise=False):
             xs, ix = np.unique(srt[:, j], return_index=True); cnt = np.diff(np.r_[ix, n]); ys = np.array([score[i:i + k].mean() for i, k in zip(ix, cnt)])
             a[:, j] = np.interp(tr[:, j], xs, ys); b[:, j] = np.interp(te[:, j], xs, ys)
         tr, te = a, b
-    mu = tr.mean(0); sd = tr.std(0); ok = np.flatnonzero(sd > 1e-12); z = (tr[:, ok] - mu[ok]) / sd[ok]; keep = []; seen = set()
-    for j in range(z.shape[1]):                                   # a column and its negative count as one
-        v = z[:, j]; nz = np.flatnonzero(abs(v) > 1e-8); sign = 1. if not len(nz) else np.sign(v[nz[0]]); key = np.round(sign * v, 9) + 0.
-        if key.tobytes() not in seen: keep.append(j); seen.add(key.tobytes())
+    mu = tr.mean(0); sd = tr.std(0); ok = np.flatnonzero(sd > 1e-12); z = (tr[:, ok] - mu[ok]) / sd[ok]; r = np.abs(z.T @ z) / len(z); keep = []
+    for j in range(z.shape[1]):                                   # a column perfectly correlated with one already kept is dropped
+        if not keep or r[j, keep].max() < 1 - 1e-10: keep.append(j)
     cols = ok[keep]; return (tr[:, cols] - mu[cols]) / sd[cols], (te[:, cols] - mu[cols]) / sd[cols]
 
 
 def smoother(Z, V, kind, alpha):
-    """Prediction matrix of ridge ('ridge') or Gaussian-kernel ('rbf') regression with an unpenalised mean."""
+    """Prediction matrix of ridge ('ridge') or Gaussian-kernel ('rbf') regression with an unpenalised mean; Z centred on the training rows, as prepare
+    returns it."""
+    if kind not in ('ridge', 'rbf'):
+        raise ValueError(f'kind {kind!r}: ridge or rbf')
     p = max(Z.shape[1], 1); K = Z @ Z.T / p; Q = V @ Z.T / p
     if kind == 'rbf':
         zz = (Z * Z).sum(1); K = np.exp(-np.maximum(zz[:, None] + zz[None, :] - 2 * (Z @ Z.T), 0) / p); Q = np.exp(-np.maximum((V * V).sum(1)[:, None] + zz[None, :] - 2 * (V @ Z.T), 0) / p)
