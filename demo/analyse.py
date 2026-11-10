@@ -82,12 +82,12 @@ def main(out=OUT):
     yv = ev.stabilisation_eV.to_numpy(); fold = np.zeros(nb, int)
     for f, (_, te) in enumerate(StratifiedKFold(5, shuffle=True, random_state=SEED).split(X, y)): fold[te] = f
     oof, _, _ = models.nested({'structural response descriptors': X.to_numpy(float)}, PENALTIES, yv, y, fold, SEED)
-    qd = ev.graph_deformation_A2.to_numpy()[:, None]; oracle = np.hstack([qd, pd.get_dummies(y).to_numpy(float)]); base, orc = np.zeros(nb), np.zeros(nb)
+    qd = ev.graph_deformation_A2.to_numpy()[:, None]; oracle = np.hstack([qd, pd.get_dummies(y, drop_first=True).to_numpy(float)]); base, orc = np.zeros(nb), np.zeros(nb)
     for f in range(5):
         base[fold == f] = LinearRegression().fit(qd[fold != f], yv[fold != f]).predict(qd[fold == f]); orc[fold == f] = LinearRegression().fit(oracle[fold != f], yv[fold != f]).predict(oracle[fold == f])
     ev['stabilisation_predicted_eV'] = oof; ev.to_csv(out / 'events.csv', index=False)
     pd.DataFrame([dict(model='structural response descriptors (ridge, held out)', inputs=X.shape[1], r2=r2_score(yv, oof)), dict(model='graph deformation alone', inputs=1, r2=r2_score(yv, base)),
-                  dict(model='graph deformation and the trap type', inputs=1 + len(classes), r2=r2_score(yv, orc))]).to_csv(out / 'model.csv', index=False)
+                  dict(model='graph deformation and the trap type', inputs=len(classes), r2=r2_score(yv, orc))]).to_csv(out / 'model.csv', index=False)
 
 
 if __name__ == '__main__':
