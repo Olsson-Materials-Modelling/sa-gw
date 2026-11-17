@@ -30,3 +30,8 @@ The example data are a synthetic toy (`example/data/README.md`).  To analyse you
     tests/                 pytest; reference/ holds the demo's numbers
 
 Licence: MIT (Olsson Materials Modelling).
+
+## Citing sa_gw
+If you use sa_gw in your work, please cite: 
+
+"State aligned graph wavelet fingerprints of electron trapping in amorphous Si3N4", arXiv preprint arXiv:2610.06173, doi: [https://doi.org/10.48550/arXiv.2610.06173]
